@@ -1,0 +1,36 @@
+﻿@model List<Debt.Models.City>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div>
+    <script>
+        function doIt(item, baseUrl) {
+            window.location.href = baseUrl + '?city=' + ddlCities.value + '&param=' + ddlParam.value;
+        }
+
+    </script>
+    @using (Html.BeginForm("City", "Cities", FormMethod.Post))
+    {
+        <p>Please select a City
+        <select id="ddlCities" name="CityId">
+            <option>-- select city --</option>
+            @for (var i = 0; i < Model.Count; i++)
+            {
+                <option value="@Model[i].Name">@Model[i].Name</option>
+                
+            }
+        </select>
+        </p>
+    }
+    <p>Please select a Parameter
+    <select id="ddlParam" name="ddlParamId" onchange="doIt(this,'@Url.Action("GetAQ", "Home")')">
+        <option>-- select parameter --</option>
+        @foreach (var param in Model.Select(p => p.Parameters).Distinct().First())
+        {
+            <option value="@param.Trim()">@param.Trim()</option>
+;
+        }
+    </select>
+    </p>
+</div>

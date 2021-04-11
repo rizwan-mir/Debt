@@ -1,0 +1,22 @@
+﻿@model List<Debt.Models.Countries>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div>
+    <script>
+        function doIt(item, baseUrl) {
+            window.location.href = baseUrl + '?countryCode=' + ddlCountries.value;
+        }
+    </script>
+@using (Html.BeginForm("Country", "Countries", FormMethod.Post))
+{
+    <p>Please select a country</p>
+    <select id="ddlCountries" name="CountryId" onchange="doIt(this,'@Url.Action("GetCity", "Home")')">
+        <option>-- select country --</option>
+        @for (var i = 0; i < Model.Count; i++)
+        {
+            <option onclick="location.href='@(Url.Action("GetCity", "Home", new {countryCode= @Model[i].Code}))'"  value="@Model[i].Code">@Model[i].Name</option>
+        }        
+    </select>
+}
+</div>
